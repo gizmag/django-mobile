@@ -1,6 +1,20 @@
 Changelog
 =========
 
+0.5.1
+-----
+
+* `#58`_: Fix Python 3 install issues related to unicode strings. Thanks to
+  Zowie for inspiring the patch.
+
+.. _#58: https://github.com/gregmuellegger/django-mobile/pull/58
+
+0.5.0
+-----
+
+* Support for Django 1.7 and Django 1.8. Thanks to Jose Ignacio Galarza and to
+  Anton Shurashov for the patches.
+
 0.4.0
 -----
 

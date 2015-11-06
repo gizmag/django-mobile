@@ -5,14 +5,23 @@ import os
 import sys
 from setuptools import setup
 
+
 README_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
-CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'README.rst')
+CHANGES_PATH = os.path.join(os.path.dirname(__file__), 'CHANGES.rst')
+
+
+def readfile(filename):
+    if sys.version_info[0] >= 3:
+        return open(filename, 'r', encoding='utf-8').read()
+    else:
+        return open(filename, 'r').read()
+
 
 def get_author(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = readfile(os.path.join(package, '__init__.py'))
     author = re.search("__author__ = u?['\"]([^'\"]+)['\"]", init_py).group(1)
     return UltraMagicString(author)
 
@@ -21,7 +30,7 @@ def get_version(package):
     """
     Return package version as listed in `__version__` in `init.py`.
     """
-    init_py = open(os.path.join(package, '__init__.py')).read()
+    init_py = readfile(os.path.join(package, '__init__.py'))
     return re.search("__version__ = ['\"]([^'\"]+)['\"]", init_py).group(1)
 
 
@@ -45,31 +54,32 @@ class UltraMagicString(object):
     def split(self, *args, **kw):
         return self.value.split(*args, **kw)
 
-if sys.version_info[0] >= 3 :
+
+if sys.version_info[0] >= 3:
     long_description = u'\n\n'.join((
-        open(README_PATH, 'r').read(),
-        open(CHANGES_PATH, 'r').read(),
+        readfile(README_PATH),
+        readfile(CHANGES_PATH),
     ))
-else :
+else:
     long_description = u'\n\n'.join((
-        open(README_PATH, 'r').read().decode('utf-8'),
-        open(CHANGES_PATH, 'r').read().decode('utf-8'),
+        readfile(README_PATH).decode('utf-8'),
+        readfile(CHANGES_PATH).decode('utf-8'),
     ))
     long_description = long_description.encode('utf-8')
     long_description = UltraMagicString(long_description)
 
 
 setup(
-    name = 'django-mobile',
-    version = get_version('django_mobile'),
-    url = 'https://github.com/gregmuellegger/django-mobile',
-    license = 'BSD',
-    description = u'Detect mobile browsers and serve different template flavours to them.',
-    long_description = long_description,
-    author = get_author('django_mobile'),
-    author_email = 'gregor@muellegger.de',
+    name='django-mobile',
+    version=get_version('django_mobile'),
+    url='https://github.com/gregmuellegger/django-mobile',
+    license='BSD',
+    description=u'Detect mobile browsers and serve different template flavours to them.',
+    long_description=long_description,
+    author=get_author('django_mobile'),
+    author_email='gregor@muellegger.de',
     keywords='django,mobile',
-    classifiers = [
+    classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Web Environment',
         'Framework :: Django',
@@ -84,10 +94,10 @@ setup(
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    packages = [
+    packages=[
         'django_mobile',
         'django_mobile.cache',
     ],
-    tests_require = ['Django', 'mock'],
-    test_suite = 'django_mobile_tests.runtests.runtests',
+    tests_require=['Django', 'mock'],
+    test_suite='django_mobile_tests.runtests.runtests',
 )
